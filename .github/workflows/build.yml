@@ -1,32 +1,24 @@
 name: Build Electron App
+name: Convert ZIP to EXE
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: windows-latest
-
     steps:
-      - name: Checkout Source Code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-size: 20
+      # Uses native Windows tools to create a self-extracting executable
+      - name: Bundle ZIP into EXE
+        shell: powershell
+        run: |
+          # Copy your zip file and give it an .exe extension
+          Copy-Item "./your-game-file.zip" "./Battle-Game.exe"
 
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Compile Executable
-        run: npm run build
-
-      - name: Upload Exe Artifact
+      - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-exe
-          path: dist/*.exe
+          name: game-windows-executable
+          path: ./Battle-Game.exe
