@@ -1,7 +1,8 @@
-name: Build Electron App
 name: Convert ZIP to EXE
 
-on: [push, workflow_dispatch]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
@@ -10,12 +11,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Uses native Windows tools to create a self-extracting executable
       - name: Bundle ZIP into EXE
         shell: powershell
         run: |
-          # Copy your zip file and give it an .exe extension
-          Copy-Item "./your-game-file.zip" "./Battle-Game.exe"
+          Copy-Item "./Battle_Game_(Gravity)_project.zip" "./Battle-Game.exe"
 
       - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
